@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DemoApplication.class)
 @WebIntegrationTest(randomPort = true)
-public class DemoApplicationIT {
+public class DemoApplicationTest {
 	@Value("http://localhost:${local.server.port}")
 	private String			host;
 
