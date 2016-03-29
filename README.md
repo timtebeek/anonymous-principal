@@ -1,0 +1,1 @@
+For: http://stackoverflow.com/questions/36284458/principal-argument-null-for-anonymous-user-in-resourceserver
