@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,12 @@ public class DemoApplication {
 	public String get(final Principal user) {
 		Assert.notNull(user);
 		return user.getName();
+	}
+
+	@RequestMapping(value = "/authprincipal", method = RequestMethod.GET)
+	public String get(@AuthenticationPrincipal final String user) {
+		Assert.notNull(user);
+		return user;
 	}
 
 	@RequestMapping(value = "/authentication", method = RequestMethod.GET)

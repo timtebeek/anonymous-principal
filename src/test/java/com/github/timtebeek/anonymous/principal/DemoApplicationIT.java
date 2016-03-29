@@ -1,6 +1,5 @@
 package com.github.timtebeek.anonymous.principal;
 
-import com.github.timtebeek.anonymous.principal.DemoApplication;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +23,13 @@ public class DemoApplicationIT {
 	@Test
 	public void principal() {
 		ResponseEntity<String> entity = rest.getForEntity(host + "/principal", String.class);
+		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
+		Assert.assertEquals("guest", entity.getBody());
+	}
+
+	@Test
+	public void authprincipal() {
+		ResponseEntity<String> entity = rest.getForEntity(host + "/authprincipal", String.class);
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
