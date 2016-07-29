@@ -40,4 +40,18 @@ public class DemoApplicationTest {
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
+
+	@Test
+	public void anonymous() {
+		ResponseEntity<String> entity = rest.getForEntity(host + "/anonymous", String.class);
+		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
+		Assert.assertEquals("guest", entity.getBody());
+	}
+
+	@Test
+	public void context() {
+		ResponseEntity<String> entity = rest.getForEntity(host + "/context", String.class);
+		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
+		Assert.assertEquals("guest", entity.getBody());
+	}
 }

@@ -4,9 +4,11 @@ import java.security.Principal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,13 +28,25 @@ public class DemoApplication {
 		return user.getName();
 	}
 
-	@RequestMapping(value = "/authprincipal", method = RequestMethod.GET)
-	public String get(@AuthenticationPrincipal final String user) {
+	@RequestMapping(value = "/authentication", method = RequestMethod.GET)
+	public String get(final Authentication user) {
 		Assert.notNull(user);
-		return user;
+		return user.getName();
 	}
 
-	@RequestMapping(value = "/authentication", method = RequestMethod.GET)
+	@RequestMapping(value = "/anonymous", method = RequestMethod.GET)
+	public String get(final AnonymousAuthenticationToken user) {
+		Assert.notNull(user);
+		return user.getName();
+	}
+
+	@RequestMapping(value = "/authprincipal", method = RequestMethod.GET)
+	public String get(@AuthenticationPrincipal final UserDetails userdetails) {
+		Assert.notNull(userdetails);
+		return userdetails.getUsername();
+	}
+
+	@RequestMapping(value = "/context", method = RequestMethod.GET)
 	public String get() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Assert.notNull(auth);
