@@ -10,8 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -22,34 +21,34 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@RequestMapping(value = "/principal", method = RequestMethod.GET)
+	@GetMapping("/principal")
 	public String get(final Principal user) {
-		Assert.notNull(user);
+		Assert.notNull(user, "Principal should not be null");
 		return user.getName();
 	}
 
-	@RequestMapping(value = "/authentication", method = RequestMethod.GET)
+	@GetMapping("/authentication")
 	public String get(final Authentication user) {
-		Assert.notNull(user);
+		Assert.notNull(user, "Authentication should not be null");
 		return user.getName();
 	}
 
-	@RequestMapping(value = "/anonymous", method = RequestMethod.GET)
+	@GetMapping("/anonymous")
 	public String get(final AnonymousAuthenticationToken user) {
-		Assert.notNull(user);
+		Assert.notNull(user, "AnonymousAuthenticationToken should not be null");
 		return user.getName();
 	}
 
-	@RequestMapping(value = "/authprincipal", method = RequestMethod.GET)
+	@GetMapping("/authprincipal")
 	public String get(@AuthenticationPrincipal final UserDetails userdetails) {
-		Assert.notNull(userdetails);
+		Assert.notNull(userdetails, "UserDetails should not be null");
 		return userdetails.getUsername();
 	}
 
-	@RequestMapping(value = "/context", method = RequestMethod.GET)
+	@GetMapping("/context")
 	public String get() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Assert.notNull(auth);
+		Assert.notNull(auth, "SecurityContext Authentication should not be null");
 		return auth.getName();
 	}
 }

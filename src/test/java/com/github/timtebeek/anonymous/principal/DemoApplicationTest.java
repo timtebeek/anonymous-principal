@@ -3,54 +3,50 @@ package com.github.timtebeek.anonymous.principal;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DemoApplication.class)
-@WebIntegrationTest(randomPort = true)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class DemoApplicationTest {
-	@Value("http://localhost:${local.server.port}")
-	private String			host;
-
-	private RestTemplate	rest	= new TestRestTemplate();
+	@Autowired
+	private TestRestTemplate	rest;
 
 	@Test
 	public void principal() {
-		ResponseEntity<String> entity = rest.getForEntity(host + "/principal", String.class);
+		ResponseEntity<String> entity = rest.getForEntity("/principal", String.class);
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
 
 	@Test
 	public void authprincipal() {
-		ResponseEntity<String> entity = rest.getForEntity(host + "/authprincipal", String.class);
+		ResponseEntity<String> entity = rest.getForEntity("/authprincipal", String.class);
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
 
 	@Test
 	public void authentication() {
-		ResponseEntity<String> entity = rest.getForEntity(host + "/authentication", String.class);
+		ResponseEntity<String> entity = rest.getForEntity("/authentication", String.class);
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
 
 	@Test
 	public void anonymous() {
-		ResponseEntity<String> entity = rest.getForEntity(host + "/anonymous", String.class);
+		ResponseEntity<String> entity = rest.getForEntity("/anonymous", String.class);
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
 
 	@Test
 	public void context() {
-		ResponseEntity<String> entity = rest.getForEntity(host + "/context", String.class);
+		ResponseEntity<String> entity = rest.getForEntity("/context", String.class);
 		Assert.assertTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
 		Assert.assertEquals("guest", entity.getBody());
 	}
